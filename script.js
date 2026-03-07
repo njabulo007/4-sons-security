@@ -117,3 +117,23 @@
     });
   });
 })();
+
+/* ===========================
+   WHATSAPP STICKY ICON VISIBILITY
+=========================== */
+(function () {
+  const whatsappSticky = document.querySelector('.whatsapp-sticky');
+  if (!whatsappSticky) return;
+
+  const toggleVisibility = () => {
+    const navHeight = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--nav-height')) || 96;
+    if (window.scrollY > navHeight) {
+      whatsappSticky.classList.add('visible');
+    } else {
+      whatsappSticky.classList.remove('visible');
+    }
+  };
+
+  window.addEventListener('scroll', toggleVisibility);
+  toggleVisibility(); // Check on load
+})();
