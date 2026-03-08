@@ -4,20 +4,30 @@
 (function () {
   const intro  = document.getElementById('logo-intro');
   const navbar = document.getElementById('mainNav');
+  const navMenu = document.getElementById('navMenu');
+  const navToggle = document.querySelector('.navbar-toggler');
 
   const syncNavHeight = () => {
     if (!navbar) return;
-    document.documentElement.style.setProperty('--nav-height', `${navbar.offsetHeight}px`);
+    const navContainer = navbar.querySelector('.container');
+    const navHeight = navContainer ? navContainer.offsetHeight : navbar.offsetHeight;
+    document.documentElement.style.setProperty('--nav-height', `${navHeight}px`);
   };
 
   syncNavHeight();
   window.addEventListener('load', syncNavHeight);
   window.addEventListener('resize', syncNavHeight);
 
-  const navMenu = document.getElementById('navMenu');
   if (navMenu) {
-    navMenu.addEventListener('shown.bs.collapse', syncNavHeight);
-    navMenu.addEventListener('hidden.bs.collapse', syncNavHeight);
+    navMenu.addEventListener('show.bs.collapse', () => {
+      navbar.classList.add('menu-open');
+      if (navToggle) navToggle.setAttribute('aria-expanded', 'true');
+    });
+
+    navMenu.addEventListener('hidden.bs.collapse', () => {
+      navbar.classList.remove('menu-open');
+      if (navToggle) navToggle.setAttribute('aria-expanded', 'false');
+    });
   }
 
   // Step 1: After 2.5 seconds, fade out the intro overlay
@@ -102,7 +112,9 @@
     });
   };
 
-  window.addEventListener('scroll', highlightNav);
+  window.addEventListener('scroll', highlightNav, { passive: true });
+  window.addEventListener('load', highlightNav);
+  window.addEventListener('resize', highlightNav);
 })();
 
 /* ===========================
@@ -134,6 +146,6 @@
     }
   };
 
-  window.addEventListener('scroll', toggleVisibility);
+  window.addEventListener('scroll', toggleVisibility, { passive: true });
   toggleVisibility(); // Check on load
 })();
