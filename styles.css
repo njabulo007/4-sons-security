@@ -1176,6 +1176,11 @@ footer {
   }
 }
 
+.khulisamedia{
+  margin-right:  70px;
+
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
